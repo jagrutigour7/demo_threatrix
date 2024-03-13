@@ -1,9 +1,9 @@
-references:
-  workspace_root: &workspace_root
-    /tmp/workspace
-  attach_workspace: &attach_workspace
-    attach_workspace:
-      at: *workspace_root
+# references:
+#   workspace_root: &workspace_root
+#     /tmp/workspace
+#   attach_workspace: &attach_workspace
+#     attach_workspace:
+#       at: *workspace_root
 version: 2.1
 orbs:
   # Your orb will be automatically injected here during the pipeline.
