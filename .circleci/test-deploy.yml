@@ -98,4 +98,4 @@ workflows:
       - threatrix_scan:
           context:
             - threatrix
-            - ARTIFACTORY_SERVICE_ACCOUNT
+            # - ARTIFACTORY_SERVICE_ACCOUNT
