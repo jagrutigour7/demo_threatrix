@@ -46,27 +46,27 @@ jobs:
         steps:
             # - *attach_workspace
             - checkout
-            - run:
-                command: |
-                    find . -name "requirements.txt"|xargs cat > requirements-all.txt
-            - restore_cache:
-                keys:
-                    - v1-dependencies-{{ checksum "requirements-all.txt" }}
-                    # fallback to using the latest cache if no exact match is found
-                    - v1-dependencies-
-                    # set up Jitpack access still needed due to armada repo codebase in use here
-            - run:
-                name: Set up Maven .m2 directory and settings.xml for repository access
-                command: |
-                    mkdir -p ~/.m2
-            - run:
-                name: Evaluate Maven Dependencies if necessary
-                command: |
-                    [[ ! -f pom.xml ]] && echo "no pom.xml present" || mvn -f pom.xml dependency:go-offline -
-            - save_cache:
-                paths:
-                    - ~/.m2
-                key: v1-dependencies-{{ checksum "requirements-all.txt" }}
+            # - run:
+            #     command: |
+            #         find . -name "requirements.txt"|xargs cat > requirements-all.txt
+            # - restore_cache:
+            #     keys:
+            #         - v1-dependencies-{{ checksum "requirements-all.txt" }}
+            #         # fallback to using the latest cache if no exact match is found
+            #         - v1-dependencies-
+            #         # set up Jitpack access still needed due to armada repo codebase in use here
+            # - run:
+            #     name: Set up Maven .m2 directory and settings.xml for repository access
+            #     command: |
+            #         mkdir -p ~/.m2
+            # - run:
+            #     name: Evaluate Maven Dependencies if necessary
+            #     command: |
+            #         [[ ! -f pom.xml ]] && echo "no pom.xml present" || mvn -f pom.xml dependency:go-offline -
+            # - save_cache:
+            #     paths:
+            #         - ~/.m2
+            #     key: v1-dependencies-{{ checksum "requirements-all.txt" }}
 
  # Execute Threat Scan
             - run:
