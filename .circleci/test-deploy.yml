@@ -59,7 +59,6 @@ jobs:
                 name: Set up Maven .m2 directory and settings.xml for repository access
                 command: |
                     mkdir -p ~/.m2
-                    wget -O ~/.m2/settings.xml https://fluence-threatrix.s3.amazonaws.com/artifactory_templat
             - run:
                 name: Evaluate Maven Dependencies if necessary
                 command: |
