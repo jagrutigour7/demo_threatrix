@@ -26,3 +26,4 @@ workflows:
   test-deploy:
     jobs:
       - threatrix_scan
+      - demo_threatrix/install_threatagent
