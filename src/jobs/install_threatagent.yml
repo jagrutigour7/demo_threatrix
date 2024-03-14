@@ -1,0 +1,8 @@
+description: >
+  Install threat agent
+
+executor: default
+
+steps:
+  - install_threatagent
+

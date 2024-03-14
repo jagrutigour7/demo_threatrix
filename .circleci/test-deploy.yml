@@ -8,16 +8,16 @@ orbs:
 
 # Use this tag to ensure test jobs always run,
 # even though the downstream publish job will only run on release tags.
-filters: &filters
-  tags:
-    only: /.*/
+# filters: &filters
+#   tags:
+#     only: /.*/
 
-# Filter for release tags.
-release-filters: &release-filters
-  branches:
-    ignore: /.*/
-  tags:
-    only: /^v[0-9]+\.[0-9]+\.[0-9]+$/
+# # Filter for release tags.
+# release-filters: &release-filters
+#   branches:
+#     ignore: /.*/
+#   tags:
+#     only: /^v[0-9]+\.[0-9]+\.[0-9]+$/
 
 # jobs:
   # Create jobs to test the commands of your orbs.
@@ -38,8 +38,8 @@ references:
 
 jobs:
   threatrix_scan:
-        docker:
-            - image: circleci/openjdk:11-jdk-node
+        # docker:
+        #     - image: circleci/openjdk:11-jdk-node
         working_directory: ~/repo
         environment:
             MAVEN_OPTS: -Xmx3200m
@@ -69,10 +69,11 @@ jobs:
             #     key: v1-dependencies-{{ checksum "requirements-all.txt" }}
 
  # Execute Threat Scan
-            - run:
-                name: Install Threatrix ThreatAgent & Scan
-                command: |
-                    curl -L https://github.com/threatrix/threat-agent-dist/releases/download/latest/threat-agent.jar > /tmp/threatagent.jar
+            # - run:
+            #     name: Install Threatrix ThreatAgent & Scan
+            #     command: |
+            #         curl -L https://github.com/threatrix/threat-agent-dist/releases/download/latest/threat-agent.jar > /tmp/threatagent.jar
+            - demo_threatrix/install_threatagent
 workflows:
   test-deploy:
     jobs:
@@ -93,8 +94,9 @@ workflows:
             # - command-test
           context: orb-publishing
           filters: *release-filters
+      - demo_threatrix/install_threatagent
     # jobs:
-      - threatrix_scan:
-          context:
-            - threatrix
+      # - threatrix_scan:
+      #     context:
+      #       - threatrix
             # - ARTIFACTORY_SERVICE_ACCOUNT
