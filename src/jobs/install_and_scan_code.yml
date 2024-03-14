@@ -16,7 +16,7 @@ parameters:
 executor: default
 
 steps:
-  - scan_code:
+  - install_and_scan_code:
       oid: <<parameters.oid>>
       eid: <<parameters.eid>>
       api_key: <<parameters.api_key>>
