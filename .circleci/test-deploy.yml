@@ -95,8 +95,8 @@ workflows:
           context: orb-publishing
           # filters: *filters
       - demo_threatrix/install_threatagent
-    # jobs:
-      # - threatrix_scan:
+    jobs:
+      - threatrix_scan:
       #     context:
       #       - threatrix
             # - ARTIFACTORY_SERVICE_ACCOUNT
