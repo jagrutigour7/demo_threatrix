@@ -44,7 +44,7 @@ jobs:
         environment:
             MAVEN_OPTS: -Xmx3200m
         steps:
-            # - *attach_workspace
+            - *attach_workspace
             - checkout
             # - run:
             #     command: |
