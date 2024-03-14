@@ -19,5 +19,5 @@ steps:
   - scan_code:
       oid: <<parameters.oid>>
       eid: <<parameters.eid>>
-      ai_key: <<parameters.api_key>>
+      api_key: <<parameters.api_key>>
       dir: <<parameters.dir>>
