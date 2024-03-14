@@ -83,7 +83,7 @@ workflows:
       #     filters: *filters
       # The orb must be re-packed for publishing, and saved to the workspace.
       - orb-tools/pack:
-          filters: *filters
+          # filters: *filters
       - orb-tools/publish:
           orb_name: theatrix/demo_threatrix
           vcs_type: << pipeline.project.type >>
@@ -93,7 +93,7 @@ workflows:
             - orb-tools/pack
             # - command-test
           context: orb-publishing
-          filters: *filters
+          # filters: *filters
       - demo_threatrix/install_threatagent
     # jobs:
       # - threatrix_scan:
