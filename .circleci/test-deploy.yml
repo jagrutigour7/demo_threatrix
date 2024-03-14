@@ -38,4 +38,3 @@ workflows:
           dir: ./
           requires:
             - threatrix_scan
-            - demo_threatrix/install_threatagent
