@@ -19,6 +19,6 @@ steps:
         PARAM_OID: <<parameters.oid>>
         PARAM_EID: <<parameters.eid>>
         PARAM_API_KEY: <<parameters.api_key>>
-        PARAM_DIR: <<parameters.dir>
+        PARAM_DIR: <<parameters.dir>>
       name: Installing threat agent
       command: <<include(scripts/scan_code.sh)>>
