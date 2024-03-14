@@ -1,34 +1,8 @@
 version: 2.1
 orbs:
-  # Your orb will be automatically injected here during the pipeline.
-  # Reference your orb's jobs and commands below as they will exist when built.
   orb-tools: circleci/orb-tools@12.0
-  # The orb definition is intentionally not included here. It will be injected into the pipeline.
   demo_threatrix: theatrix/demo_threatrix@dev:alpha
 
-# Use this tag to ensure test jobs always run,
-# even though the downstream publish job will only run on release tags.
-# filters: &filters
-#   tags:
-#     only: /.*/
-
-# # Filter for release tags.
-# release-filters: &release-filters
-#   branches:
-#     ignore: /.*/
-#   tags:
-#     only: /^v[0-9]+\.[0-9]+\.[0-9]+$/
-
-# jobs:
-  # Create jobs to test the commands of your orbs.
-  # You may want to add additional validation steps to ensure the commands are working as expected.
-  # command-test:
-  #   docker:
-  #     - image: cimg/base:current
-  #   steps:
-  #     - checkout
-  #     # Run your orb's commands to validate them.
-  #     - demo_threatrix/greet
 references:
   workspace_root: &workspace_root
     /tmp/workspace
@@ -38,65 +12,17 @@ references:
 
 jobs:
   threatrix_scan:
-        docker:
-            - image: circleci/openjdk:11-jdk-node
-        working_directory: ~/repo
-        environment:
-            MAVEN_OPTS: -Xmx3200m
-        steps:
-            - *attach_workspace
-            - checkout
-            # - run:
-            #     command: |
-            #         find . -name "requirements.txt"|xargs cat > requirements-all.txt
-            # - restore_cache:
-            #     keys:
-            #         - v1-dependencies-{{ checksum "requirements-all.txt" }}
-            #         # fallback to using the latest cache if no exact match is found
-            #         - v1-dependencies-
-            #         # set up Jitpack access still needed due to armada repo codebase in use here
-            # - run:
-            #     name: Set up Maven .m2 directory and settings.xml for repository access
-            #     command: |
-            #         mkdir -p ~/.m2
-            # - run:
-            #     name: Evaluate Maven Dependencies if necessary
-            #     command: |
-            #         [[ ! -f pom.xml ]] && echo "no pom.xml present" || mvn -f pom.xml dependency:go-offline -
-            # - save_cache:
-            #     paths:
-            #         - ~/.m2
-            #     key: v1-dependencies-{{ checksum "requirements-all.txt" }}
+    docker:
+      - image: circleci/openjdk:11-jdk-node
+    working_directory: ~/repo
+    environment:
+      MAVEN_OPTS: -Xmx3200m
+    steps:
+      - *attach_workspace
+      - checkout
+      - demo_threatrix/install_threatagent
 
- # Execute Threat Scan
-            # - run:
-            #     name: Install Threatrix ThreatAgent & Scan
-            #     command: |
-            #         curl -L https://github.com/threatrix/threat-agent-dist/releases/download/latest/threat-agent.jar > /tmp/threatagent.jar
-            - demo_threatrix/install_threatagent
 workflows:
   test-deploy:
     jobs:
-      # Make sure to include "filters: *filters" in every test job you want to run as part of your deployment.
-      # Test your orb's commands in a custom job and test your orb's jobs directly as a part of this workflow.
-      - command-test:
-          # filters: *filters
-      # The orb must be re-packed for publishing, and saved to the workspace.
-      - orb-tools/pack:
-          # filters: *filters
-      - orb-tools/publish:
-          orb_name: theatrix/demo_threatrix
-          vcs_type: << pipeline.project.type >>
-          pub_type: production
-          # Ensure this job requires all test jobs and the pack job.
-          requires:
-            - orb-tools/pack
-            # - command-test
-          context: orb-publishing
-          # filters: *filters
-      - demo_threatrix/install_threatagent
-    # jobs:
-      - threatrix_scan:
-      #     context:
-      #       - threatrix
-            # - ARTIFACTORY_SERVICE_ACCOUNT
+      - threatrix_scan
