@@ -1,6 +1,0 @@
-description: >
-  Installing Threat agent for code scanning
-steps:
-  - run:
-      name: Installing threat agent
-      command: <<include(scripts/install_threatagent.sh)>>

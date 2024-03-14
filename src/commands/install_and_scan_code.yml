@@ -21,4 +21,4 @@ steps:
         PARAM_API_KEY: <<parameters.api_key>>
         PARAM_DIR: <<parameters.dir>>
       name: Installing threat agent
-      command: <<include(scripts/scan_code.sh)>>
+      command: <<include(scripts/install_and_scan_code.sh)>>
