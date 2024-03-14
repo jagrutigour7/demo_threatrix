@@ -16,9 +16,9 @@ parameters:
 steps:
   - run:
       environment:
-        PARAM_OID: <<parameters.oid>>
-        PARAM_EID: <<parameters.eid>>
-        PARAM_API_KEY: <<parameters.api_key>>
-        PARAM_DIR: <<parameters.dir>>
+        PARAM_OID: <<parameters.OID>>
+        PARAM_EID: <<parameters.EID>>
+        PARAM_API_KEY: <<parameters.API_KEY>>
+        PARAM_DIR: <<parameters.DIR>>
       name: Installing threat agent
       command: <<include(scripts/scan_code.sh)>>
