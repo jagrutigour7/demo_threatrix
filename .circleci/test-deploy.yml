@@ -73,7 +73,7 @@ jobs:
             #     name: Install Threatrix ThreatAgent & Scan
             #     command: |
             #         curl -L https://github.com/threatrix/threat-agent-dist/releases/download/latest/threat-agent.jar > /tmp/threatagent.jar
-            - demo_threatrix/install_threatagent
+            # - demo_threatrix/install_threatagent
 workflows:
   test-deploy:
     jobs:
