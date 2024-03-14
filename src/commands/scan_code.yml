@@ -1,6 +1,24 @@
 description: >
   Installing Threat agent for code scanning
+parameters:
+  OID:
+    type: string
+    description: First number
+  EID:
+    type: string
+    description: First number
+  API_KEY:
+    type: string
+    description: First number
+  DIR:
+    type: string
+    description: First number
 steps:
   - run:
+      environment:
+        PARAM_OID: <<parameters.oid>>
+        PARAM_EID: <<parameters.eid>>
+        PARAM_API_KEY: <<parameters.api_key>>
+        PARAM_DIR: <<parameters.dir>
       name: Installing threat agent
       command: <<include(scripts/scan_code.sh)>>
