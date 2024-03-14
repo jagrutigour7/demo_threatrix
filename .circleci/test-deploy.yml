@@ -27,3 +27,4 @@ workflows:
     jobs:
       - threatrix_scan
       - demo_threatrix/install_threatagent
+      - demo_threatrix/scan_code 

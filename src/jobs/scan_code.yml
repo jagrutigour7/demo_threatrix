@@ -1,0 +1,7 @@
+description: >
+  Install threat agent
+
+executor: default
+
+steps:
+  - scan_code
