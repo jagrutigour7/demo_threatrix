@@ -3,16 +3,16 @@ description: >
 parameters:
   oid:
     type: string
-    description: First number
+    description: Organization ID
   eid:
     type: string
-    description: First number
+    description: Entity ID
   api_key:
     type: string
-    description: First number
+    description: API Key
   dir:
     type: string
-    description: First number
+    description: Path to scan the code
 steps:
   - run:
       environment:
