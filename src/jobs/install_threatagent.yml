@@ -5,4 +5,3 @@ executor: default
 
 steps:
   - install_threatagent
-

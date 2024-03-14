@@ -4,4 +4,3 @@ steps:
   - run:
       name: Installing threat agent
       command: <<include(scripts/install_threatagent.sh)>>
-      
