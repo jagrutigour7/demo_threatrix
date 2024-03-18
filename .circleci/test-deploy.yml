@@ -21,10 +21,11 @@ jobs:
       - *attach_workspace
       - checkout
       - demo_threatrix/install_and_scan_code:
-          oid: $threatrix_oid
-          eid: $threatrix_eid
-          api_key: $threatrix_api_key
-          dir: ./
+          context: threatrix
+            oid: $threatrix_oid
+            eid: $threatrix_eid
+            api_key: $threatrix_api_key
+            dir: ./
           
 
 workflows:
