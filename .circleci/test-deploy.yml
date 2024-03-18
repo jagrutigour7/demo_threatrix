@@ -36,7 +36,8 @@ jobs:
 workflows:
   test-deploy:
     jobs:
-      - threatrix_scan
+      - threatrix_scan:
+          context: threatrix
       - demo_threatrix/install_and_scan_code:
           context: threatrix
           # oid: $threatrix_oid
