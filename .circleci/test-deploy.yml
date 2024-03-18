@@ -21,9 +21,9 @@ jobs:
       - *attach_workspace
       - checkout
       - demo_threatrix/install_and_scan_code:
-            - run: # print the name of the branch we're on
-              name: "What branch am I on?"
-              command: echo ${$threatrix_oid} 
+      - run: # print the name of the branch we're on
+          name: "What branch am I on?"
+          command: echo ${$threatrix_oid} 
             
 
           # context: threatrix
