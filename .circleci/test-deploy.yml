@@ -27,10 +27,10 @@ jobs:
             
 
           # context: threatrix
-          oid: $threatrix_oid
-          eid: $threatrix_eid
-          api_key: $threatrix_api_key
-          dir: ./
+          # oid: $threatrix_oid
+          # eid: $threatrix_eid
+          # api_key: $threatrix_api_key
+          # dir: ./
           
 
 workflows:
