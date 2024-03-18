@@ -25,15 +25,12 @@ workflows: # a single workflow with a single job called build
   test-deploy:
     jobs:
       - demo_threatrix/install_and_scan_code:
-          oid: ${threatrix_oid}
+          oid: threatrix_oid
           eid: threatrix_eid
           api_key: threatrix_api_key
           dir: ./
           filters: *filters
           context: threatrix
-          - run: # print the name of the branch we're on
-              name: "What branch am I on?"
-              command: echo ${CIRCLE_BRANCH}
       # The orb must be re-packed for publishing, and saved to the workspace.
       - orb-tools/pack:
           filters: *release-filters
