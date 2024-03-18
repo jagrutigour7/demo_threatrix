@@ -1,14 +1,14 @@
-# version: 2.1
-# orbs:
-#   orb-tools: circleci/orb-tools@12.0
-#   demo_threatrix: theatrix/demo_threatrix@dev:alpha
+version: 2.1
+orbs:
+  orb-tools: circleci/orb-tools@12.0
+  demo_threatrix: theatrix/demo_threatrix@dev:alpha
 
-# references:
-#   workspace_root: &workspace_root
-#     /tmp/workspace
-#   attach_workspace: &attach_workspace
-#     attach_workspace:
-#       at: *workspace_root
+references:
+  workspace_root: &workspace_root
+    /tmp/workspace
+  attach_workspace: &attach_workspace
+    attach_workspace:
+      at: *workspace_root
 
 # jobs:
 #   threatrix_scan:
@@ -26,61 +26,20 @@
 #           command: echo ${$threatrix_oid} 
             
 
-#           # context: threatrix
-#           # oid: $threatrix_oid
-#           # eid: $threatrix_eid
-#           # api_key: $threatrix_api_key
-#           # dir: ./
+          # context: threatrix
+          # oid: $threatrix_oid
+          # eid: $threatrix_eid
+          # api_key: $threatrix_api_key
+          # dir: ./
           
 
-# workflows:
-#   test-deploy:
-#     jobs:
-#       - threatrix_scan:
-#           context: threatrix
-#       - demo_threatrix/install_and_scan_code:
-#           context: threatrix
-#           # oid: $threatrix_oid
-#           # eid: $threatrix_eid
-#           # api_key: $threatrix_api_key
-#           # dir: ./
-#             # requires:
-#             # - threatrix_scan
-
-version: 2.1
-
-jobs: # basic units of work in a run
-  build:
-    docker: # use the Docker executor
-      # CircleCI Node images available at: https://circleci.com/developer/images/image/cimg/node
-      - image: cimg/node:18.11.0
-    steps: # steps that comprise the `build` job
-      - checkout # check out source code to working directory
-      # Run a step to setup an environment variable
-      # Redirect MY_ENV_VAR into $BASH_ENV
-      - run:
-          name: "Setup custom environment variables"
-          command: echo 'export MY_ENV_VAR="FOO"' >> "$BASH_ENV"
-      - run: # print the name of the branch we're on
-          name: "What branch am I on?"
-          command: echo $threatrix_oid
-      # Run another step, the same as above; note that you can
-      # invoke environment variable without curly braces.
-      - run:
-          name: "What branch am I on now?"
-          command: echo $threatrix_oid
-      - run:
-          name: "What was my custom environment variable?"
-          command: echo $threatrix_oid
-      - run:
-          name: "Print an env var stored in the Project"
-          command: echo ${threatrix_oid}
-      - run:
-          name: "Print an env var stored in a Context"
-          command: echo $threatrix_oid
-
 workflows: # a single workflow with a single job called build
-  build:
+  test-deploy:
     jobs:
-      - build:
+      - demo_threatrix/install_and_scan_code:
+          oid: $threatrix_oid
+          eid: $threatrix_eid
+          api_key: $threatrix_api_key
+          dir: ./
           context: threatrix
+
