@@ -37,6 +37,6 @@ workflows:
           # oid: $threatrix_oid
           # eid: $threatrix_eid
           # api_key: $threatrix_api_key
-          dir: ./
+          # dir: ./
             requires:
             - threatrix_scan
