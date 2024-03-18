@@ -10,28 +10,16 @@ references:
     attach_workspace:
       at: *workspace_root
 
-# jobs:
-#   threatrix_scan:
-#     docker:
-#       - image: circleci/openjdk:11-jdk-node
-#     working_directory: ~/repo
-#     environment:
-#       MAVEN_OPTS: -Xmx3200m
-#     steps:
-#       - *attach_workspace
-#       - checkout
-#       - demo_threatrix/install_and_scan_code:
-#       - run: # print the name of the branch we're on
-#           name: "What branch am I on?"
-#           command: echo ${$threatrix_oid} 
-            
+filters: &filters
+  tags:
+    only: /.*/
 
-          # context: threatrix
-          # oid: $threatrix_oid
-          # eid: $threatrix_eid
-          # api_key: $threatrix_api_key
-          # dir: ./
-          
+# Filter for release tags.
+release-filters: &release-filters
+  branches:
+    ignore: /.*/
+  tags:
+    only: /^v[0-9]+\.[0-9]+\.[0-9]+$/
 
 workflows: # a single workflow with a single job called build
   test-deploy:
@@ -41,5 +29,18 @@ workflows: # a single workflow with a single job called build
           eid: threatrix_eid
           api_key: threatrix_api_key
           dir: ./
+          filters: *filters
           context: threatrix
-
+      # The orb must be re-packed for publishing, and saved to the workspace.
+      - orb-tools/pack:
+          filters: *release-filters
+      - orb-tools/publish:
+          orb_name: theatrix/demo_threatrix
+          vcs_type: << pipeline.project.type >>
+          pub_type: production
+          # Ensure this job requires all test jobs and the pack job.
+          requires:
+            - orb-tools/pack
+            - demo_threatrix/install_and_scan_code
+          context: orb-publishing
+          filters: *release-filters
