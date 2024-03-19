@@ -1,29 +1,98 @@
-# Orb Template
+# Threatrix Orb
+
+## Introduction
+
+The Threatrix Private Orb is a specialized tool designed to seamlessly integrate security scanning capabilities into your CI/CD pipelines. By utilizing this private orb, teams can efficiently scan their codebases for vulnerabilities and track them within the Threatrix dashboard, ensuring comprehensive security assessments and proactive risk mitigation throughout the software development process.
+
+## Prerequisites
+
+### 1. Create an Account on Threatrix
+The easiest way to scan your project is by authenticating using GitHub or GitLab. This enables you to have immediate access to your projects.
+
+### 2. Generate API Key, Entity ID, and Organization ID 
+- Navigate to Settings > User > API Keys.
+  - Select Add API key and provide all the necessary information to generate the API key.
+- Go to Settings > User > Entities.
+  - Here you can find the Entity ID and Organization ID.
+
+Store all these three values as they will be required for scanning.
+
+## Overview of Threatrix Private Orb
+
+Added a private orb for Threatrix in `test-deploy.yml`.
+
+```yaml
+version: 2.1
+orbs:
+  # Orb for CircleCI utility commands and workflows.
+  orb-tools: circleci/orb-tools@12.0
+  # Private orb for integrating with the Threatrix security platform.
+  demo_threatrix: theatrix/demo_threatrix@dev:alpha
+```
+
+Under workflow define threatrix job and all the required perameters for scanning
+
+``` yml
+workflows: # a single workflow with a single job called test-deploy
+  test-deploy:
+    jobs:
+      - demo_threatrix/install_and_scan_code:
+          oid: threatrix_oid
+          eid: threatrix_eid
+          api_key: threatrix_api_key
+          dir: ./
+          filters: *filters
+          context: threatrix
+```
+
+### Jobs
 
 
-[![CircleCI Build Status](https://circleci.com/gh/jagrutigour7/demo_threatrix.svg?style=shield "CircleCI Build Status")](https://circleci.com/gh/jagrutigour7/demo_threatrix) [![CircleCI Orb Version](https://badges.circleci.com/orbs/theatrix/demo_threatrix.svg)](https://circleci.com/developer/orbs/orb/theatrix/demo_threatrix) [![GitHub License](https://img.shields.io/badge/license-MIT-lightgrey.svg)](https://raw.githubusercontent.com/jagrutigour7/demo_threatrix/master/LICENSE) [![CircleCI Community](https://img.shields.io/badge/community-CircleCI%20Discuss-343434.svg)](https://discuss.circleci.com/c/ecosystem/orbs)
+This CircleCI job installs the Threatrix Threat Agent and initiates code scanning. It utilizes provided parameters like Organization ID, Entity ID, API Key, and directory path for scanning, ensuring seamless integration into CI/CD pipelines.
 
+### Commands
 
+This YAML configuration defines a CircleCI job for installing and utilizing the Threatrix Threat Agent for code scanning purposes. The job takes parameters including Organization ID, Entity ID, API Key, and directory path for code scanning. It executes a Bash script <b>install_and_scan_code.sh</b> with the provided parameters, facilitating the streamlined deployment and operation of the Threat Agent within CI/CD pipelines for continuous security monitoring.
 
-A project template for Orbs.
+### Scripts
 
-This repository is designed to be automatically ingested and modified by the CircleCI CLI's `orb init` command.
+This Bash script automates the installation and execution of the Threatrix Threat Agent. It downloads the latest Threat Agent binary from the official repository, executes it with specified parameters such as Organization ID, Environment ID, API key, and directory to be scanned, providing streamlined setup for continuous threat monitoring.
 
-_**Edit this area to include a custom title and description.**_
+### executors
 
----
+This configuration sets up a Java Docker image for Threatrix operations, allowing customization of the Node version through the tag parameter.
 
-## Resources
+## How to Use Threatrix private orb
 
-[CircleCI Orb Registry Page](https://circleci.com/developer/orbs/orb/theatrix/demo_threatrix) - The official registry page of this orb for all versions, executors, commands, and jobs described.
+Generate a .circleci/config.yml file in your repository that needs to be scanned.
 
-[CircleCI Orb Docs](https://circleci.com/docs/orb-intro/#section=configuration) - Docs for using, creating, and publishing CircleCI Orbs.
+Now in that file, add the following block:
 
-### How to Contribute
+``` yml
+version: 2.1
+setup: true
+orbs:
+  demo_threatrix: theatrix/demo_threatrix@dev:alpha
 
-We welcome [issues](https://github.com/jagrutigour7/demo_threatrix/issues) to and [pull requests](https://github.com/jagrutigour7/demo_threatrix/pulls) against this repository!
+filters: &filters
+  tags:
+    only: /.*/
+
+workflows:
+  install-and-run-threatrix:
+    jobs:
+      - demo_threatrix/install_and_scan_code:
+          oid: THREATRIX_OID
+          eid: THREATRIX_EID
+          api_key: THREATRIX_API_KEY
+          dir: <path_to_directory>
+```
+Replace  Threatrix Organization ID with THREATRIX_OID, Entity ID with THREATRIX_EID and API_KEY with THREATRIX_APY_KEY 
+
+After successful execution of pipeline a report will be visible on threatrix dashboard
 
 ### How to Publish An Update
+
 1. Merge pull requests with desired changes to the main branch.
     - For the best experience, squash-and-merge and use [Conventional Commit Messages](https://conventionalcommits.org/).
 2. Find the current version of the orb.
